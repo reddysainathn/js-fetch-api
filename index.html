@@ -5,8 +5,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>JavaScript Fetch API</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
-    <script src="main.js"></script>
 </head>
 <body>
     <div id="container">
@@ -15,8 +13,19 @@
     </div>
     <script>
         document.getElementById('getText').addEventListener('click', getText);
+
+        // function getText(){
+        //     fetch('https://raw.githubusercontent.com/reddysainathn/js-fetch-api/master/sample.txt')
+        //     .then(function(res){
+        //         return res.text();
+        //     })
+        //     .then(function(data){
+        //         console.log(data)
+        //     })
+        // }
+
         function getText(){
-            fetch('sample.txt')
+            fetch('https://raw.githubusercontent.com/reddysainathn/js-fetch-api/master/sample.txt')
             .then((res) => (res.text()))
             .then((data) => {
                 console.log(data);
