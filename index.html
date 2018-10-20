@@ -10,10 +10,12 @@
     <div id="container">
         <h1>Javascript Fetch API Demo</h1>
         <button id="getText">Get Text</button>
+        <button id="getJSON">Get Users</button>
+        <div id="output"></div>
     </div>
     <script>
         document.getElementById('getText').addEventListener('click', getText);
-
+        document.getElementById('getJSON').addEventListener('click', getJSON);
         // function getText(){
         //     fetch('https://raw.githubusercontent.com/reddysainathn/js-fetch-api/master/sample.txt')
         //     .then(function(res){
@@ -28,8 +30,28 @@
             fetch('https://raw.githubusercontent.com/reddysainathn/js-fetch-api/master/sample.txt')
             .then((res) => (res.text()))
             .then((data) => {
-                console.log(data);
+                document.getElementById('output').innerHTML = data;
             })
+            .catch((err) => console.log(err))
+        }
+
+        function getJSON(){
+            fetch('https://raw.githubusercontent.com/reddysainathn/js-fetch-api/master/sample.json')
+            .then((res) => (res.json()))
+            .then((data) => {
+                let output ='<h1>Users</h1>';
+                data.forEach((user) =>{
+                    output += `
+                        <ul>
+                            <li>ID : ${user.id}</li>
+                            <li>User : ${user.name}</li>
+                            <li>Email : ${user.email}</li>
+                        </ul>
+                    `
+                })
+                document.getElementById('output').innerHTML = output;
+            })
+            .catch((err) => console.log(err))
         }
     </script>
 </body>
