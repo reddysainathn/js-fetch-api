@@ -5,22 +5,25 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>JavaScript Fetch API</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 </head>
 <body>
-    <div id="container">
-        <h1>Javascript Fetch API Demo</h1>
-        <button id="getText">Get Text</button>
-        <button id="getJSON">Get Users</button>
-        <button id="getPosts">Get Posts</button>
+    <div class="container">
+        <h1 class="display-4 mb-4">Javascript Fetch API Demo</h1>
+        <div class="d-flex">
+            <button class="btn btn-primary mr-4" id="getText">Get Text</button>
+            <button class="btn btn-success mr-4" id="getJSON">Get Users</button>
+            <button class="btn btn-warning mr-4" id="getPosts">Get Posts</button>
+        </div>
         <div id="output"></div>
         <form id="addPost">
-            <div>
-                <input type="text" name="title" placeholder="title">
+            <div class="form-group">
+                <input class="form-control" type="text" id="title" placeholder="title">
             </div>
-            <div>
-                <textarea id="body" placeholder="Body"></textarea>
+            <div class="form-group">
+                <textarea class="form-control" id="body" placeholder="Body"></textarea>
             </div>
-            <input type="submit" value="Submit">
+            <input class="btn btn-secondary" type="submit" value="Submit">
         </form>
     </div>
     <script>
@@ -51,13 +54,13 @@
             fetch('https://raw.githubusercontent.com/reddysainathn/js-fetch-api/master/sample.json')
             .then((res) => (res.json()))
             .then((data) => {
-                let output ='<h1>Users</h1>';
+                let output ='<h1 class="mb-4">Users</h1>';
                 data.forEach((user) =>{
                     output += `
-                        <ul>
-                            <li>ID : ${user.id}</li>
-                            <li>User : ${user.name}</li>
-                            <li>Email : ${user.email}</li>
+                        <ul class="list-group mb-3">
+                            <li class="list-group-item">ID : ${user.id}</li>
+                            <li class="list-group-item">User : ${user.name}</li>
+                            <li class="list-group-item">Email : ${user.email}</li>
                         </ul>
                     `
                 })
@@ -70,10 +73,10 @@
             fetch('http://jsonplaceholder.typicode.com/posts')
             .then((res) => (res.json()))
             .then((data) => {
-                let output ='<h1>Posts</h1>';
+                let output ='<h1 class="mb-4">Posts</h1>';
                 data.forEach((post) =>{
                     output += `
-                        <div>
+                        <div class="card card-body mb-3">
                             <h3>${post.title}</h3>
                             <p>${post.body}</p>
                         </div>
@@ -84,20 +87,24 @@
             .catch((err) => console.log(err))
         }
 
-        function addPost(){
-            fetch('http://jsonplaceholder.typicode.com/posts')
+        function addPost(e){
+            e.preventDefault();
+            let title = document.getElementById('title').value;
+            let body = document.getElementById('body').value;
+            fetch('http://jsonplaceholder.typicode.com/posts',{
+                    method : 'POST',
+                    headers : {
+                        'Accept':'application/json, text/plain, */*',
+                        'Content-Type':'application/json'
+                    },
+                    body:JSON.stringify({
+                        'title':title,
+                        'body':body
+                    })
+                    })
             .then((res) => (res.json()))
             .then((data) => {
-                let output ='<h1>Posts</h1>';
-                data.forEach((post) =>{
-                    output += `
-                        <div>
-                            <h3>${post.title}</h3>
-                            <p>${post.body}</p>
-                        </div>
-                    `
-                })
-                document.getElementById('output').innerHTML = output;
+                console.log(data);
             })
             .catch((err) => console.log(err))
         }
